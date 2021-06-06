@@ -4,11 +4,11 @@ import GreenButton from './components/GreenButton';
 import RedButton from './components/RedButton';
 import Register from './components/Register';
 import Login from './components/Login';
+import Welcome from './components/Welcome';
 import firebase from './components/FireBase';
 
 export default class App extends Component {
-
-registerUser = userName => {
+  registerUser = userName => {
     firebase.auth().onAuthStateChanged(FBUser => {
       FBUser.updateProfile({
         displayName: userName
@@ -25,15 +25,12 @@ registerUser = userName => {
   render() {
     return (
       <div>
-        <Register path="/register" registerUser={this.registerUser}/>
-       
-      <Login path="/login" />
-     
+        <Register path="/register" registerUser={this.registerUser} />
+        <Router>
+          <Login path="/login" />
+          <Welcome path="/welcome" />
+        </Router>
       </div>
-
-
     );
   }
 }
-
-export default App;

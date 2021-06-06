@@ -1,45 +1,43 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import firebase from './FireBase';
 import FormError from './FormError';
-import {navigate} from '@reach/router';
+import { navigate } from '@reach/router';
 
-class Login extends Component{
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      errorMessage: null
+    };
 
-constructor(props){
-  super(props);
-  this.state={
-    email:'',
-    password:'',
-    errorMessage:null
-  };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-
-  this.handleChange =this.handleChange.bind(this);
-  this.handleSubmit = this.handleSubmit.bind(this);
-}
-
- handleChange(e) {
+  handleChange(e) {
     const itemName = e.target.name;
     const itemValue = e.target.value;
 
     this.setState({ [itemName]: itemValue });
   }
 
-    handleSubmit(e) {
+  handleSubmit(e) {
     var registrationInfo = {
       email: this.state.email,
       password: this.state.password
     };
     e.preventDefault();
 
-     firebase
+    firebase
       .auth()
       .signInWithEmailAndPassword(
         registrationInfo.email,
         registrationInfo.password
       )
       .then(() => {
-        navigate('/meetings');
+        navigate('/welcome');
       })
       .catch(error => {
         if (error.message !== null) {
@@ -48,55 +46,47 @@ constructor(props){
           this.setState({ errorMessage: null });
         }
       });
-    }
-render() {
+  }
+  render() {
     return (
       <form className="mt-3" onSubmit={this.handleSubmit}>
-        
-                  <h3 className="font-weight-light mb-3">Log in</h3>
-                  <section className="form-group">
-                    {this.state.errorMessage !== null ? (
-                      <FormError
-                        theMessage={this.state.errorMessage}
-                      />
-                    ) : null}
-                    <label
-                      className="form-control-label sr-only"
-                      htmlFor="Email"
-                    >
-                      Email
-                    </label>
-                    <input
-                      required
-                      className="form-control"
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="Email"
-                      value={this.state.email}
-                      onChange={this.handleChange}
-                    />
-                  </section>
-                  <section className="form-group">
-                    <input
-                      required
-                      className="form-control"
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      value={this.state.password}
-                      onChange={this.handleChange}
-                    />
-                  </section>
-                  <div className="form-group text-right mb-0">
-                    <button className="btn btn-primary" type="submit">
-                      Log in
-                    </button>
-                  </div>
-                
+        <h3 className="font-weight-light mb-3">Log in</h3>
+        <section className="form-group">
+          {this.state.errorMessage !== null ? (
+            <FormError theMessage={this.state.errorMessage} />
+          ) : null}
+          <label className="form-control-label sr-only" htmlFor="Email">
+            Email
+          </label>
+          <input
+            required
+            className="form-control"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this.handleChange}
+          />
+        </section>
+        <section className="form-group">
+          <input
+            required
+            className="form-control"
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
+        </section>
+        <div className="form-group text-right mb-0">
+          <button className="btn btn-primary" type="submit">
+            Log in
+          </button>
+        </div>
       </form>
     );
   }
 }
 export default Login;
-
