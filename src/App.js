@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router } from '@reach/router';
+import { Router, navigate } from '@reach/router';
 import GreenButton from './components/GreenButton';
 import RedButton from './components/RedButton';
 import Register from './components/Register';
@@ -27,9 +27,11 @@ registerUser = userName => {
       <div>
         <Register path="/register" registerUser={this.registerUser}/>
        
-
+      <Login path="/login" />
      
       </div>
+
+
     );
   }
 }
